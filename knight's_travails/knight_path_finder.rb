@@ -32,8 +32,8 @@ class KnightPathFinder
     def initialize(start_pos)
         @start_pos = start_pos
         @root_node = PolyTreeNode.new(start_pos)
-        self.build_move_tree
         @considered_positions = [start_pos]
+        self.build_move_tree
     end
 
     def new_move_positions(pos)
@@ -51,8 +51,8 @@ class KnightPathFinder
     def build_move_tree
         # use new_move_positions
        #  queue
-       # set root node to start position 
-       
+       # set root node to start position
+
        #create new node for each potential position
        #breadth first search
         # iterate through new move positions
@@ -61,7 +61,7 @@ class KnightPathFinder
         until queue.empty?  # loop through queue until it is empty
             current_node = queue.shift   # shift out first node from queue, set to current value
             current_position = current_node.value # store value of current node
-            self.new_move_positions(current_position).each do |position| # loop through array returned by #new_move_positions method, 
+            self.new_move_positions(current_position).each do |position| # loop through array returned by #new_move_positions method,
                 next_node = PolyTreeNode.new(position) # instantiate node
                 current_node.add_child(next_node)   # call #add_child methd on new instance
                 queue << next_node # shovel new instance into queue
@@ -70,31 +70,60 @@ class KnightPathFinder
 
     end
 
-    
+    def trace_path_back(end_node)
+
+        path = []
+
+        current_node = end_node
+
+        until current_node == nil
+            path << current_node.value
+            current_node = current_node.parent
+        end
+
+        path
 
 
+        # loop till nill
+
+        # look at the parent of each node and add the parent
+        # add the value for each node to the find_path
+        # look at the value of the end node and add that to the path.
+
+        # check it's parent, then it's parent's parent.
+
+        # until node.value == nil
+
+        # self.root_node
+
+    end
 
 
+    def find_path(end_pos)
 
+        # look for the node that has a value for the end position
 
+        end_node = root_node.dfs(end_pos)
 
+        self.trace_path_back(end_node).reverse
 
-
-
-
-
-
+    end
 
 end
 
 if $PROGRAM_NAME == __FILE__
-     p a = KnightPathFinder.new([4,0])
-     p a.root_node.value
-     p a.considered_positions
-     p KnightPathFinder.valid_moves([4,0])
-     p a.new_move_positions([4,0])
-     p a.considered_positions
-     p KnightPathFinder.valid_moves([4,0])
-     p a.new_move_positions([4,0])
-     p a.considered_positions
+     a = KnightPathFinder.new([0,0])
+    #  a.root_node.value
+    #  a.considered_positions
+    #  puts
+    #  p KnightPathFinder.valid_moves([0,0])
+    #  a.new_move_positions([0,0])
+    #  a.considered_positions
+     puts
+     p a.find_path([7, 6])
+     p a.find_path([6, 2])
+    #  p a.build_move_tree
+
+
+
 end
